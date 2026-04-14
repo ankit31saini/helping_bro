@@ -1,0 +1,108 @@
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 40px;
+  
+  .auth-header {
+    text-align: center;
+    margin-bottom: 30px;
+    
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+  }
+
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    
+    .input-group {
+      position: relative;
+      
+      .input-icon {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-secondary);
+        transition: color 0.3s ease;
+      }
+      
+      input {
+        width: 100%;
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+        padding: 14px 14px 14px 44px;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        
+        &::placeholder {
+          color: var(--text-secondary);
+        }
+        
+        &:focus {
+          outline: none;
+          border-color: var(--primary-accent);
+          box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+          
+          & + .input-icon, 
+          & ~ .input-icon { // Depending on DOM order, usually the icon is before, so we use :has or focus-within on group
+            color: var(--primary-accent);
+          }
+        }
+      }
+      
+      // Select the icon when input is focused
+      &:focus-within .input-icon {
+        color: var(--primary-accent);
+      }
+    }
+    
+    button .spinner {
+      border-color: rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+    }
+  }
+
+  .auth-footer {
+    margin-top: 25px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    
+    a {
+      font-weight: 600;
+      margin-left: 5px;
+    }
+  }
+}
