@@ -34,18 +34,18 @@ const Interview = () => {
       setDownloading(true);
       toast.loading('Generating Optimized PDF...', { id: 'pdf-toast' });
       
-      const response = await api.get(`/interview/generate-pdf/${id}`, {
-        responseType: 'blob' // Important for file downloads
-      });
-      
-      // Create a blob URL and trigger download
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `Optimized-Resume-${id}.pdf`);
-      document.body.appendChild(link);
-      link.click();
-      link.parentNode.removeChild(link);
+      const element = document.getElementById('report-export-area');
+      const opt = {
+        margin:       10,
+        filename:     `Optimized-Resume-${id}.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      // Dynamically import html2pdf to avoid Vite build SSR issues
+      const html2pdf = (await import('html2pdf.js')).default;
+      await html2pdf().from(element).set(opt).save();
       
       toast.success('Successfully downloaded!', { id: 'pdf-toast' });
     } catch (error) {
@@ -83,7 +83,7 @@ const Interview = () => {
         </button>
       </div>
 
-      <div className="report-grid">
+      <div className="report-grid" id="report-export-area">
         {/* Score & Summary */}
         <div className="glass-panel score-card">
           <div className="score-header">
